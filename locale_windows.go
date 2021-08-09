@@ -4,18 +4,17 @@ package locale
 
 import (
 	"os/exec"
-	"strings"
 	"syscall"
 )
 
-func GetLang() string {
+func getOSLocale() string {
 	cmd := exec.Command("powershell", "Get-Culture | select -exp Name")
 	hidePowershellCmd(cmd)
 	output, err := cmd.Output()
 	if err != nil {
 		return defaultLang
 	}
-	return strings.ToLower(strings.Trim(string(output), "\r\n"))
+	return string(output)
 }
 
 func hidePowershellCmd(cmd *exec.Cmd) {
